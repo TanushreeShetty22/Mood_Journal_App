@@ -1,5 +1,6 @@
 package com.example.moodjournal;
 
+
 public class MoodEntry {
 
     private String moodText;
@@ -25,6 +26,8 @@ public class MoodEntry {
     }
 
     public void setDate(String date) {
-        this.date=date;
+        this.date = date;
     }
 }
+
+

@@ -24,7 +24,7 @@ public class Login extends AppCompatActivity {
 
     private EditText emailField, passwordField;
     private Button loginButton;
-    private TextView signupText;
+    private TextView signupText, forgotPasswordText;
     private FirebaseAuth mAuth;
     @Override
     public void onStart() {
@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
         passwordField = findViewById(R.id.password_field);
         loginButton = findViewById(R.id.login_button);
         signupText = findViewById(R.id.signup_text);
+        forgotPasswordText = findViewById(R.id.forgot_password_text);
         // Initialize the FirebaseAuth object
         mAuth = FirebaseAuth.getInstance();
 
@@ -86,6 +87,14 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        forgotPasswordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the method to handle forgot password
+                handleForgotPassword();
+            }
+        });
+
         signupText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,12 +111,35 @@ public class Login extends AppCompatActivity {
 
     private boolean isValidPassword(String password) {
         // Password should be between 6-16 characters, alphanumeric, and contain at least one special character
-        return password.length() >= 6 && password.length() <= 16 && password.matches("^(?=.*[a-zA-Z0-9])(?=.*[@#$%^&+=]).+$");
+        return password.length() >= 6 && password.length() <= 16 && password.matches("^(?=.*[a-zA-Z0-9]).+$");
     }
 
     private void goToWelcomePage() {
         // Implement the logic to start the main activity or navigate to the home page
         startActivity(new Intent(Login.this, WelcomePage.class));
+    }
+    private void handleForgotPassword() {
+        String email = emailField.getText().toString().trim();
+
+        if (isValidEmail(email)) {
+            // Call Firebase method to send password reset email
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Email sent successfully
+                                Toast.makeText(Login.this, "Password reset email sent", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Failed to send email
+                                Toast.makeText(Login.this, "Failed to send password reset email", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            // Show error if email is invalid
+            Toast.makeText(Login.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showError(String errorMessage) {

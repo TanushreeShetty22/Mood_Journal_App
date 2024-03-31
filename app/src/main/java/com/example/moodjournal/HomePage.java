@@ -66,9 +66,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-
-
-
+        
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         userMoodEntriesRef = database.getReference("users")
