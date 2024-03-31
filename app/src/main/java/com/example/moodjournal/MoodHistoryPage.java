@@ -3,11 +3,15 @@ package com.example.moodjournal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,7 +48,17 @@ public class MoodHistoryPage extends AppCompatActivity {
                 .child("mood_entries");
 
         CalendarView calendarView = findViewById(R.id.calendarview);
+        ImageView customMenuIcon = findViewById(R.id.custom_menu_icon);
 
+        customMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+        // Set up the bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -75,9 +89,7 @@ public class MoodHistoryPage extends AppCompatActivity {
             }
         });
 
-        // Set up the bottom navigation
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
     }
 
     private String getUid() {
@@ -108,7 +120,23 @@ public class MoodHistoryPage extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setGravity(Gravity.END); // Align the popup to the right side of the custom icon
+        popup.inflate(R.menu.account_menu);
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_profile) {
+                startActivity(new Intent(MoodHistoryPage.this, Profile.class));
+                return true;
+            } else if (item.getItemId() == R.id.action_signout) {
+                startActivity(new Intent(MoodHistoryPage.this, Login.class));
+                FirebaseAuth.getInstance().signOut();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             item -> {
                 int itemId = item.getItemId();

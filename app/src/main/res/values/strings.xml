@@ -13,4 +13,5 @@
     <string name="today_s_date">date</string>
     <string name="save">Save</string>
     <string name="mood_journal">Mood Journal</string>
+    <string name="ApiKey">32c8f681e82741248f7a6088238dd767</string>
 </resources>

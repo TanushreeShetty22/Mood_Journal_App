@@ -7,6 +7,8 @@
     android:orientation="vertical"
     android:background="@drawable/wallpaper1"
     tools:context=".MoodHistoryPage">
+    <!-- Include your app bar layout -->
+    <include layout="@layout/app_bar_layout" />
 
     <TextView
         android:layout_width="match_parent"
@@ -14,10 +16,10 @@
         android:text="Daily Mood"
         android:textColor="@color/white"
         android:gravity="left"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:textSize="20dp" />
+        android:textSize="24dp" />
 
     <CalendarView
         android:id="@+id/calendarview"

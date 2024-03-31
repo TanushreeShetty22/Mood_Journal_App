@@ -2,9 +2,13 @@ package com.example.moodjournal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +33,13 @@ public class Profile extends AppCompatActivity {
         // Find the TextViews in the layout
         textViewEmail = findViewById(R.id.textViewEmail);
         textViewUsername = findViewById(R.id.textViewUsername); // Initialize TextView for username
-
+        ImageView customMenuIcon = findViewById(R.id.custom_menu_icon);
+        customMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
         // Get current signed-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -55,7 +65,20 @@ public class Profile extends AppCompatActivity {
             textViewUsername.setText("N/A");
         }
     }
-
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setGravity(Gravity.END); // Align the popup to the right side of the custom icon
+        popup.inflate(R.menu.account_menu);
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_signout) {
+                startActivity(new Intent(Profile.this, Login.class));
+                FirebaseAuth.getInstance().signOut();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             item -> {
                 int itemId = item.getItemId();
