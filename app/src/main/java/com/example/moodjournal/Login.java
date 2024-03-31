@@ -50,9 +50,6 @@ public class Login extends AppCompatActivity {
 
         loginButton.setOnClickListener(new View.OnClickListener() {
 
-
-
-
             @Override
             public void onClick(View v) {
                 String email = emailField.getText().toString().trim();

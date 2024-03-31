@@ -7,9 +7,9 @@
     android:background="@drawable/wallpaper1">
 
     <!-- Include your app bar layout -->
-
-    <!-- Mood Question TextView -->
     <include layout="@layout/app_bar_layout" />
+    <!-- Mood Question TextView -->
+
 
     <TextView
         android:id="@+id/mood_question"

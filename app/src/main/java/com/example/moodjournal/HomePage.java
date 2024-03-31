@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,6 +54,20 @@ public class HomePage extends AppCompatActivity {
         emojiAngry = findViewById(R.id.emoji_angry);
         saveButton = findViewById(R.id.save_note_button);
         mAuth = FirebaseAuth.getInstance();
+
+
+
+        ImageView customMenuIcon = findViewById(R.id.custom_menu_icon);
+
+        customMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+
+
+
 
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -154,6 +170,24 @@ public class HomePage extends AppCompatActivity {
             return null;
         }
     }
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setGravity(Gravity.END); // Align the popup to the right side of the custom icon
+        popup.inflate(R.menu.account_menu);
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_profile) {
+                startActivity(new Intent(HomePage.this, Profile.class));
+                return true;
+            } else if (item.getItemId() == R.id.action_signout) {
+                startActivity(new Intent(HomePage.this, Login.class));
+                FirebaseAuth.getInstance().signOut();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             item -> {
