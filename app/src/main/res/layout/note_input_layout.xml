@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="390dp"
+    android:orientation="vertical"
+    android:padding="16dp"
+    >
+
+    <TextView
+        android:id="@+id/note_heading_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Would you care to tell us why so?"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="20dp"
+
+        />
+
+    <EditText
+        android:id="@+id/note_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Enter your note here"
+        android:inputType="textMultiLine"
+        android:padding="12dp"
+        android:textColorHint="@color/white"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/save_note_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="60dp"
+            android:backgroundTint="#f64a8a"
+            android:text="Save Note"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/skip_note_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="30dp"
+            android:backgroundTint="#f64a8a"
+            android:text="Skip"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "37377943459",
+    "firebase_url": "https://mood-journal-777-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mood-journal-777",
+    "storage_bucket": "mood-journal-777.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37377943459:android:9838a9931b3d0c45d8dc16",
+        "android_client_info": {
+          "package_name": "com.example.moodjournal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiVqqSFkliLFJnXZaq_JX3z8LeEl1snJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

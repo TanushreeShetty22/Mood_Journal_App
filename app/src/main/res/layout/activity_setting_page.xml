@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/wallpaper1">
+
+
+
+
+    <!-- Include app bar layout -->
+    <include layout="@layout/app_bar_layout" />
+
+
+
+
+    <!-- General Settings Title -->
+
+
+
+
+    <!-- Appearance Section -->
+
+
+    <TextView
+        android:id="@+id/general_settings_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="36dp"
+        android:text="General Settings"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/appearance_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/general_settings_title"
+        android:text="Appearance"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+
+
+    <!-- Radio Group for Themes -->
+    <RadioGroup
+        android:id="@+id/theme_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_below="@id/appearance_title"
+        android:layout_marginStart="16dp">
+
+
+
+
+        <RadioButton
+            android:id="@+id/theme_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Light Theme"
+            android:textSize="15dp"/>
+
+
+
+
+        <RadioButton
+            android:id="@+id/theme_dark"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:text="Dark Theme"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_below="@id/theme_light" />
+    </RadioGroup>
+
+
+
+
+    <!-- Notifications Section -->
+    <TextView
+        android:id="@+id/notifications_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/theme_group"
+        android:layout_marginTop="16dp"
+        android:text="Notifications"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+
+
+    <!-- Switch for Notifications -->
+    <Switch
+        android:id="@+id/notification_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/white"
+        android:text="Enable Notifications"
+        android:layout_below="@id/notifications_title" />
+
+
+
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notification_switch"
+        android:layout_marginTop="16dp"
+        android:text="Save"
+        android:layout_centerHorizontal="true" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/BottomNavigationStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation" />
+</RelativeLayout>
+
+
+

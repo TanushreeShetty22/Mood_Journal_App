@@ -1,0 +1,22 @@
+<!-- res/menu/bottom_navigation.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/nav_home" />
+
+    <item
+        android:id="@+id/nav_history"
+        android:title="History"
+        android:icon="@drawable/nav_history" />
+
+    <item
+        android:id="@+id/nav_insights"
+        android:title="Insights"
+        android:icon="@drawable/nav_insight" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings"
+        android:icon="@drawable/nav_settings" />
+</menu>
