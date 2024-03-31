@@ -2,11 +2,14 @@ package com.example.moodjournal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +50,7 @@ public class Login extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         signupText = findViewById(R.id.signup_text);
         forgotPasswordText = findViewById(R.id.forgot_password_text);
+
         // Initialize the FirebaseAuth object
         mAuth = FirebaseAuth.getInstance();
 
@@ -85,6 +90,24 @@ public class Login extends AppCompatActivity {
                     showSignupText();
                 }
             }
+        });
+
+
+         TextInputLayout passwordTextInputLayout = findViewById(R.id.password_text_input_layout);
+        EditText passwordField = findViewById(R.id.password_field);
+        ImageButton showPasswordButton = findViewById(R.id.show_password_button);
+
+        showPasswordButton.setOnClickListener(v -> {
+            // Toggle password visibility
+            if (passwordField.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                showPasswordButton.setImageResource(R.drawable.baseline_visibility_24);
+            } else {
+                passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                showPasswordButton.setImageResource(R.drawable.baseline_visibility_off_24);
+            }
+            // Move cursor to the end of the text
+            passwordField.setSelection(passwordField.length());
         });
 
         forgotPasswordText.setOnClickListener(new View.OnClickListener() {
