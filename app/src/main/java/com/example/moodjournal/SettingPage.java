@@ -9,9 +9,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -20,11 +22,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class SettingPage extends AppCompatActivity {
@@ -67,6 +71,14 @@ public class SettingPage extends AppCompatActivity {
         // Set up the bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+        ImageView customMenuIcon = findViewById(R.id.custom_menu_icon);
+
+        customMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
 
 
         // Initialize SharedPreferences
@@ -138,6 +150,24 @@ public class SettingPage extends AppCompatActivity {
 
         // Restart the activity to apply the new theme
         recreate();
+    }
+
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setGravity(Gravity.END); // Align the popup to the right side of the custom icon
+        popup.inflate(R.menu.account_menu);
+        popup.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_profile) {
+                startActivity(new Intent(SettingPage.this, Profile.class));
+                return true;
+            } else if (item.getItemId() == R.id.action_signout) {
+                startActivity(new Intent(SettingPage.this, Login.class));
+                FirebaseAuth.getInstance().signOut();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

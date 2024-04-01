@@ -48,6 +48,14 @@ public class MoodHistoryPage extends AppCompatActivity {
                 .child("mood_entries");
 
         CalendarView calendarView = findViewById(R.id.calendarview);
+        ImageView customMenuIcon = findViewById(R.id.custom_menu_icon);
+
+        customMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
