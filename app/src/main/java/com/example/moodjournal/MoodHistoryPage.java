@@ -48,35 +48,48 @@ public class MoodHistoryPage extends AppCompatActivity {
                 .child("mood_entries");
 
         CalendarView calendarView = findViewById(R.id.calendarview);
-        ImageView customMenuIcon = findViewById(R.id.custom_menu_icon);
 
-        customMenuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(v);
-            }
-        });
-        // Set up the bottom navigation
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                // Format the selected date in the same way as it is stored in the Firebase Realtime Database
+                String selectedDate = String.format("%d-%02d-%02d", year, month + 1, dayOfMonth);
+
                 // Display a toast with the selected date
-                String selectedDate = getDateKey(year, month, dayOfMonth);
                 Toast.makeText(MoodHistoryPage.this, "Selected Date: " + selectedDate, Toast.LENGTH_SHORT).show();
 
-                // Query the Firebase Realtime Database for mood entries for the selected date
-                userMoodEntriesRef.child(selectedDate).addListenerForSingleValueEvent(new ValueEventListener() {
+                // Query the Firebase Realtime Database for mood entries created on the selected date
+                userMoodEntriesRef.orderByChild("date").equalTo(selectedDate).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             // Mood entry found for the selected date, display it in a message box
-                            String moodText = snapshot.child("moodText").getValue(String.class);
-                            showMessage("Mood entry for " + selectedDate, moodText);
-                        } else {
-                            // No mood entry found for the selected date, show a toast message
-                            Toast.makeText(MoodHistoryPage.this, "No data saved for " + selectedDate, Toast.LENGTH_SHORT).show();
+                            String moodEntryKey = null;
+                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                moodEntryKey = childSnapshot.getKey();
+                                break;
+                            }
+
+                            // Query the Firebase Realtime Database for the mood entry using its unique key
+                            userMoodEntriesRef.child(moodEntryKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        // Mood entry found, display it in a message box
+                                        String moodText = snapshot.child("moodText").getValue(String.class);
+                                        showMessage("Mood entry for " + selectedDate, moodText);
+                                    } else {
+                                        // No mood entry found for the selected date, show a toast message
+                                        Toast.makeText(MoodHistoryPage.this, "No data saved for " + selectedDate, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Handle any errors that may occur during the query
+                                    Toast.makeText(MoodHistoryPage.this, "Failed to read data: " +error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
 
@@ -89,7 +102,9 @@ public class MoodHistoryPage extends AppCompatActivity {
             }
         });
 
-
+        // Set up the bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
     private String getUid() {
@@ -100,17 +115,10 @@ public class MoodHistoryPage extends AppCompatActivity {
         return "";
     }
 
-    private String getDateKey(int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, dayOfMonth);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy", Locale.getDefault());
-        return dateFormat.format(calendar.getTime());
-    }
-
-    private void showMessage(String title, String message) {
+    private void showMessage(String title, String moodText) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
-                .setMessage(message)
+                .setMessage(moodText)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Close the dialog

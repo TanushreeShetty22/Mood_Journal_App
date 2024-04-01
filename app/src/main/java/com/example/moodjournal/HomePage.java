@@ -66,7 +66,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        
+
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         userMoodEntriesRef = database.getReference("users")
@@ -136,7 +136,7 @@ public class HomePage extends AppCompatActivity {
             String entryId = userMoodEntriesRef.push().getKey();
 
             // Get the current date
-            String currentDate = getCurrentDateFormatted();
+            String currentDate = getCurrentDateFormat();
 
             // Create a mood entry object
             MoodEntry moodEntry = new MoodEntry(userInput, currentDate);
@@ -155,6 +155,10 @@ public class HomePage extends AppCompatActivity {
 
     private String getCurrentDateFormatted() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy", Locale.getDefault());
+        return dateFormat.format(Calendar.getInstance().getTime());
+    }
+    private String getCurrentDateFormat() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(Calendar.getInstance().getTime());
     }
 
